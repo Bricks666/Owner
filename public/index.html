@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Owner</title>
+    </head>
+    <body>
+        <header class="connect-block">
+            <h1 class="connect-block__current-user">
+                Текущий адрес кошелька:
+                <span class="connect-block__current-address"
+                    >Кошелек не подключен</span
+                >
+            </h1>
+        </header>
+        <main>
+            <div class="card">
+                <h2 class="card__owner">
+                    Текущий владелец: <span class="card__owner-address"></span>
+                </h2>
+                <label for="new-owner-address">Адрес нового владельца</label>
+                <input
+                    class="card__new-owner-address"
+                    type="text"
+                    id="new-owner-address"
+                />
+                <button class="card__change-owner" type="submit">
+                    Сменить владельца
+                </button>
+            </div>
+        </main>
+        <script src="./index.js"></script>
+    </body>
+</html>
