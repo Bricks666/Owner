@@ -1,37 +1,37 @@
-import { removeConnectButton } from "./connectButton";
-import { addDeployButton } from "./deployButton";
+import { removeConnectButton } from "./Buttons/connectButton";
+import { addDeployButton } from "./Buttons/deployButton";
 import { setAccountName } from "./htmlSetters";
 
-async function connect(data) {
-  data.contract = new data.web3.eth.Contract(data.dataForDeploy.abi);
+async function connect(state) {
+  state.contract = new state.web3.eth.Contract(state.deployData.abi);
 
-  data.account = (await data.web3.eth.getAccounts())[0];
+  state.currentAccount = (await state.web3.eth.getAccounts())[0];
 
-  if (data.account === undefined) {
+  if (state.currentAccount === undefined) {
     throw new Error("Account not found");
   }
 
-  setAccountName(data, data.account);
+  setAccountName(state, state.currentAccount);
 }
 
-async function refreshAccount(data, html) {
-  const newAddress = (await data.web3.eth.getAccounts())[0];
+async function refreshAccount(state) {
+  const newAddress = (await state.web3.eth.getAccounts())[0];
 
-  if (data.account === undefined) {
-    throw new Error("Account not found");
+  if (state.currentAccount === undefined) {
+    throw new Error("currentAccount not found");
   }
 
-  if (data.account !== newAddress) {
-    setAccountName(data, newAddress);
+  if (state.currentAccount !== newAddress) {
+    setAccountName(state, newAddress);
   }
 }
 
-export async function connectAccount(data, html) {
-  await connect(data);
+export async function connectAccount(state) {
+  await connect(state);
 
-  const id = setInterval(() => refreshAccount(data, html), 500);
+  const id = setInterval(() => refreshAccount(state), 500);
 
-  removeConnectButton(html);
+  removeConnectButton(state.html);
 
-  addDeployButton(data, html);
+  addDeployButton(state);
 }

@@ -13,3 +13,11 @@ export const createButton = (text, className) => {
 export const removeButton = (button) => {
   button.remove();
 };
+
+export const blockButton = (button) => {
+  button.disabled = true;
+};
+
+export const unblockButton = (button) => {
+  button.disabled = false;
+};

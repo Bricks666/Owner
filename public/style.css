@@ -1,0 +1,59 @@
+/* PAGE */
+
+.page {
+  margin: 0;
+  padding: 0;
+
+  font-family: "Roboto", sans-serif;
+}
+
+/* CONNECT BLOCK */
+
+.connect-block {
+  display: grid;
+
+  grid-template-columns: max-content 1fr;
+
+  row-gap: 20px;
+
+  min-height: 80px ;
+
+  padding: 10px;
+
+  background-color: teal;
+
+  color: whitesmoke;
+}
+
+/* CONNECT CURRENT USER */
+
+.connect-block__current-user {
+  grid-column: span 2;
+
+  margin: 0;
+
+  font-size: 28px;
+  line-height: 1.5em;
+}
+
+/* CONNECT CURRENT ADDRESS */
+
+.connect-block__current-address {
+  font-weight: 400;
+}
+
+.connect-block__connect-button,
+.connect-block__deploy-button {
+  padding: 10px 20px;
+
+  border: none;
+  border-radius: 0;
+
+  font-size: 14px;
+}
+
+/* CARD */
+
+.card {
+  display: grid;
+}

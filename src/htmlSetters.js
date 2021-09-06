@@ -1,13 +1,13 @@
-import { html } from "./Elements";
+export const setCurrentOwner = (state, name) => {
+  state.html.currentOwner.querySelector(".card__owner-address").innerHTML =
+    name;
 
-export const setCurrentOwner = (data, name) => {
-  html.currentOwner.querySelector(".card__owner-address").innerHTML = name;
-
-  data.currentOwner = name;
+  state.currentOwner = name;
 };
 
-export const setAccountName = (data, name) => {
-  html.accountName.querySelector(".connect-block__current-address").innerHTML =
-    name;
-  data.account = name;
+export const setAccountName = (state, name) => {
+  state.html.accountName.querySelector(
+    ".connect-block__current-address"
+  ).innerHTML = name;
+  state.currentAccount = name;
 };

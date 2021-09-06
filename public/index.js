@@ -9,25 +9,135 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/Elements.js":
-/*!*************************!*\
-  !*** ./src/Elements.js ***!
-  \*************************/
+/***/ "./src/Buttons/connectButton.js":
+/*!**************************************!*\
+  !*** ./src/Buttons/connectButton.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"html\": () => (/* binding */ html)\n/* harmony export */ });\nconst html = {\n  header: document.querySelector(\".connect-block\"),\n  accountName: document.querySelector(\".connect-block__current-user\"),\n  currentOwner: document.querySelector(\".card__owner\"),\n  changeOwnerButton: document.querySelector(\".card__change-owner\"),\n  changeOwnerField: document.querySelector(\".card__new-owner-address\"),\n};\n\n\n//# sourceURL=webpack://owner/./src/Elements.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"removeConnectButton\": () => (/* binding */ removeConnectButton),\n/* harmony export */   \"addConnectButton\": () => (/* binding */ addConnectButton)\n/* harmony export */ });\n/* harmony import */ var _standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./standardButtonsManipulations */ \"./src/Buttons/standardButtonsManipulations.js\");\n/* harmony import */ var _connect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../connect */ \"./src/connect.js\");\n\n\n\nconst removeConnectButton = (html) => {\n  (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.removeButton)(html.connectButton);\n\n  delete html.connectButton;\n};\n\nconst addConnectButton = (state) => {\n  const connectButton = createConnectButton();\n\n  connectButton.addEventListener(\"click\", async () => {\n    try {\n      (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.blockButton)(connectButton);\n      await (0,_connect__WEBPACK_IMPORTED_MODULE_1__.connectAccount)(state);\n    } catch (e) {\n      (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.unblockButton)(connectButton);\n      console.log(e.message);\n    }\n  });\n\n  appendConnectButton(state.html, connectButton);\n};\n\nfunction appendConnectButton(html, button) {\n  html.header.append(button);\n\n  html.connectButton = button;\n}\n\nfunction createConnectButton() {\n  return (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.createButton)(\"Connect to account\", \"connect-block__connect-button\");\n}\n\n\n//# sourceURL=webpack://owner/./src/Buttons/connectButton.js?");
 
 /***/ }),
 
-/***/ "./src/buttons.js":
-/*!************************!*\
-  !*** ./src/buttons.js ***!
-  \************************/
+/***/ "./src/Buttons/deployButton.js":
+/*!*************************************!*\
+  !*** ./src/Buttons/deployButton.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createButton\": () => (/* binding */ createButton),\n/* harmony export */   \"removeButton\": () => (/* binding */ removeButton)\n/* harmony export */ });\nconst createButton = (text, className) => {\n  const button = document.createElement(\"button\");\n\n  button.type = \"submit\";\n\n  button.innerHTML = text;\n\n  button.classList.add(className ?? \"\");\n\n  return button;\n};\n\nconst removeButton = (button) => {\n  button.remove();\n};\n\n\n//# sourceURL=webpack://owner/./src/buttons.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addDeployButton\": () => (/* binding */ addDeployButton),\n/* harmony export */   \"removeDeployButton\": () => (/* binding */ removeDeployButton)\n/* harmony export */ });\n/* harmony import */ var _standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./standardButtonsManipulations */ \"./src/Buttons/standardButtonsManipulations.js\");\n/* harmony import */ var _deployContract__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../deployContract */ \"./src/deployContract.js\");\n\n\n\nconst addDeployButton = (state) => {\n  const deployButton = createDeployButton();\n\n  deployButton.onclick = async () => {\n    try {\n      (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.blockButton)(deployButton);\n      await (0,_deployContract__WEBPACK_IMPORTED_MODULE_1__.deploy)(state);\n    } catch (e) {\n      (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.unblockButton)(deployButton);\n      console.log(e.message);\n    }\n  };\n\n  appendDeployButton(state.html, deployButton);\n};\n\nfunction appendDeployButton(html, button) {\n  html.deployButton = button;\n\n  html.header.append(button);\n}\n\nconst removeDeployButton = (html) => {\n  (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.removeButton)(html.deployButton);\n\n  delete html.deployButton;\n};\n\nfunction createDeployButton() {\n  return (0,_standardButtonsManipulations__WEBPACK_IMPORTED_MODULE_0__.createButton)(\"Deploy contract\", \"connect-block__deploy-button\");\n}\n\n\n//# sourceURL=webpack://owner/./src/Buttons/deployButton.js?");
+
+/***/ }),
+
+/***/ "./src/Buttons/standardButtonsManipulations.js":
+/*!*****************************************************!*\
+  !*** ./src/Buttons/standardButtonsManipulations.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createButton\": () => (/* binding */ createButton),\n/* harmony export */   \"removeButton\": () => (/* binding */ removeButton),\n/* harmony export */   \"blockButton\": () => (/* binding */ blockButton),\n/* harmony export */   \"unblockButton\": () => (/* binding */ unblockButton)\n/* harmony export */ });\nconst createButton = (text, className) => {\n  const button = document.createElement(\"button\");\n\n  button.type = \"submit\";\n\n  button.innerHTML = text;\n\n  button.classList.add(className ?? \"\");\n\n  return button;\n};\n\nconst removeButton = (button) => {\n  button.remove();\n};\n\nconst blockButton = (button) => {\n  button.disabled = true;\n};\n\nconst unblockButton = (button) => {\n  button.disabled = false;\n};\n\n\n//# sourceURL=webpack://owner/./src/Buttons/standardButtonsManipulations.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/addCard.js":
+/*!******************************************!*\
+  !*** ./src/ChangheOwnerBlock/addCard.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addCard\": () => (/* binding */ addCard)\n/* harmony export */ });\n/* harmony import */ var _creaters_createCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./creaters/createCard */ \"./src/ChangheOwnerBlock/creaters/createCard.js\");\n/* harmony import */ var _changeOwner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../changeOwner */ \"./src/changeOwner.js\");\n\n\n\nconst addCard = (state) => {\n  const card = (0,_creaters_createCard__WEBPACK_IMPORTED_MODULE_0__.createCard)();\n\n  state.html.currentOwner = card.querySelector(\".card__owner\");\n  state.html.changeOwnerField = card.querySelector(\".card__new-owner-address\");\n  state.html.changeOwnerButton = card.querySelector(\".card__change-owner\");\n\n  state.html.changeOwnerButton.addEventListener(\"click\", async (evt) => {\n    evt.preventDefault();\n    try {\n      await (0,_changeOwner__WEBPACK_IMPORTED_MODULE_1__.changeOwner)(state);\n    } catch (e) {\n      console.log(e.message);\n    }\n  });\n\n  state.html.main.append(card);\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/addCard.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCard.js":
+/*!******************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCard.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCard\": () => (/* binding */ createCard)\n/* harmony export */ });\n/* harmony import */ var _createCardHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createCardHeader */ \"./src/ChangheOwnerBlock/creaters/createCardHeader.js\");\n/* harmony import */ var _createCardForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createCardForm */ \"./src/ChangheOwnerBlock/creaters/createCardForm.js\");\n\n\n\nconst createCard = () => {\n  const card = document.createElement(\"div\");\n\n  card.append((0,_createCardHeader__WEBPACK_IMPORTED_MODULE_0__.createCardHeader)(), (0,_createCardForm__WEBPACK_IMPORTED_MODULE_1__.createCardForm)());\n\n  card.classList.add(\"card\");\n\n  return card;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCard.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardAddress.js":
+/*!*************************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardAddress.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardAddress\": () => (/* binding */ createCardAddress)\n/* harmony export */ });\nconst createCardAddress = () => {\n  const span = document.createElement(\"span\");\n\n  span.classList.add(\"card__owner-address\");\n\n  return span;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardAddress.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardButton.js":
+/*!************************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardButton.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardButton\": () => (/* binding */ createCardButton)\n/* harmony export */ });\nconst createCardButton = () => {\n  const button = document.createElement(\"button\");\n\n  button.type = \"submit\";\n  button.innerHTML = \"Сменить владельца\";\n  button.classList.add(\"card__change-owner\");\n\n  return button;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardButton.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardField.js":
+/*!***********************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardField.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardField\": () => (/* binding */ createCardField)\n/* harmony export */ });\nconst createCardField = () => {\n  const field = document.createElement(\"input\");\n\n  field.type = \"text\";\n  field.id = \"new-owner-address\";\n  field.classList.add(\"card__new-owner-address\");\n\n  return field;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardField.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardForm.js":
+/*!**********************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardForm.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardForm\": () => (/* binding */ createCardForm)\n/* harmony export */ });\n/* harmony import */ var _createCardButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createCardButton */ \"./src/ChangheOwnerBlock/creaters/createCardButton.js\");\n/* harmony import */ var _createCardLabel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createCardLabel */ \"./src/ChangheOwnerBlock/creaters/createCardLabel.js\");\n/* harmony import */ var _createCardField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createCardField */ \"./src/ChangheOwnerBlock/creaters/createCardField.js\");\n\n\n\n\nconst createCardForm = () => {\n  const form = document.createElement(\"form\");\n\n  form.append((0,_createCardLabel__WEBPACK_IMPORTED_MODULE_1__.createCardLabel)(), (0,_createCardField__WEBPACK_IMPORTED_MODULE_2__.createCardField)(), (0,_createCardButton__WEBPACK_IMPORTED_MODULE_0__.createCardButton)());\n  form.classList.add(\"card__form\");\n\n  return form;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardForm.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardHeader.js":
+/*!************************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardHeader.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardHeader\": () => (/* binding */ createCardHeader)\n/* harmony export */ });\n/* harmony import */ var _createCardAddress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./createCardAddress */ \"./src/ChangheOwnerBlock/creaters/createCardAddress.js\");\n\n\nconst createCardHeader = () => {\n  const header = document.createElement(\"h2\");\n\n  header.innerHTML = \"Текущий владелец: \";\n  header.append((0,_createCardAddress__WEBPACK_IMPORTED_MODULE_0__.createCardAddress)());\n  header.classList.add(\"card__owner\");\n\n  return header;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardHeader.js?");
+
+/***/ }),
+
+/***/ "./src/ChangheOwnerBlock/creaters/createCardLabel.js":
+/*!***********************************************************!*\
+  !*** ./src/ChangheOwnerBlock/creaters/createCardLabel.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"createCardLabel\": () => (/* binding */ createCardLabel)\n/* harmony export */ });\nconst createCardLabel = () => {\n  const label = document.createElement(\"label\");\n\n  label.for = \"new-owner-address\";\n  label.innerHTML = \"Адрес нового владельца\";\n  label.classList.add(\"card__new-owner-label\");\n\n  return label;\n};\n\n\n//# sourceURL=webpack://owner/./src/ChangheOwnerBlock/creaters/createCardLabel.js?");
+
+/***/ }),
+
+/***/ "./src/changeOwner.js":
+/*!****************************!*\
+  !*** ./src/changeOwner.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"changeOwner\": () => (/* binding */ changeOwner)\n/* harmony export */ });\n/* harmony import */ var _htmlGetters__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./htmlGetters */ \"./src/htmlGetters.js\");\n\n\nasync function changeOwner(state) {\n  const newAddress = (0,_htmlGetters__WEBPACK_IMPORTED_MODULE_0__.getNewAddress)(state.html);\n\n  /* Нужно что то придумать, чтобы не реагировало на собственный адрес, который приходит при receipt'е */\n  /*   if (state.currentAccount !== state.currentOwner) {\n    alert(\"Вы не являетесь владельцем\");\n    return;\n  } */\n\n  if (newAddress === state.currentOwner) {\n    alert(\"Нельзя сменить адрес на свой\");\n    return;\n  }\n\n  if (state.web3.utils.isAddress(newAddress) === false) {\n    throw new TypeError(\"Введен некорректный адрес\");\n  }\n\n  await state.contract.methods\n    .changeOwner(newAddress)\n    .send({ from: state.currentAccount });\n}\n\n\n//# sourceURL=webpack://owner/./src/changeOwner.js?");
 
 /***/ }),
 
@@ -38,40 +148,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"connectAccount\": () => (/* binding */ connectAccount)\n/* harmony export */ });\n/* harmony import */ var _connectButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./connectButton */ \"./src/connectButton.js\");\n/* harmony import */ var _deployButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deployButton */ \"./src/deployButton.js\");\n/* harmony import */ var _htmlSetters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./htmlSetters */ \"./src/htmlSetters.js\");\n\n\n\n\nasync function connect(data) {\n  data.contract = new data.web3.eth.Contract(data.dataForDeploy.abi);\n\n  data.account = (await data.web3.eth.getAccounts())[0];\n\n  if (data.account === undefined) {\n    throw new Error(\"Account not found\");\n  }\n\n  (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setAccountName)(data, data.account);\n}\n\nasync function refreshAccount(data, html) {\n  const newAddress = (await data.web3.eth.getAccounts())[0];\n\n  if (data.account === undefined) {\n    throw new Error(\"Account not found\");\n  }\n\n  if (data.account !== newAddress) {\n    (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setAccountName)(data, newAddress);\n  }\n}\n\nasync function connectAccount(data, html) {\n  await connect(data);\n\n  const id = setInterval(() => refreshAccount(data, html), 500);\n\n  (0,_connectButton__WEBPACK_IMPORTED_MODULE_0__.removeConnectButton)(html);\n\n  (0,_deployButton__WEBPACK_IMPORTED_MODULE_1__.addDeployButton)(data, html);\n}\n\n\n//# sourceURL=webpack://owner/./src/connect.js?");
-
-/***/ }),
-
-/***/ "./src/connectButton.js":
-/*!******************************!*\
-  !*** ./src/connectButton.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"removeConnectButton\": () => (/* binding */ removeConnectButton),\n/* harmony export */   \"addConnectButton\": () => (/* binding */ addConnectButton)\n/* harmony export */ });\n/* harmony import */ var _buttons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./buttons */ \"./src/buttons.js\");\n/* harmony import */ var _connect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connect */ \"./src/connect.js\");\n\n\n\n\nconst removeConnectButton = (html) => {\n  (0,_buttons__WEBPACK_IMPORTED_MODULE_0__.removeButton)(html.connectButton);\n};\n\nconst addConnectButton = (data, html) => {\n  const connectButton = createConnectButton();\n\n  connectButton.addEventListener(\n    \"click\",\n    async () => await (0,_connect__WEBPACK_IMPORTED_MODULE_1__.connectAccount)(data, html)\n  );\n\n  html.header.append(connectButton);\n\n  html.connectButton = connectButton;\n};\n\nfunction createConnectButton() {\n  return (0,_buttons__WEBPACK_IMPORTED_MODULE_0__.createButton)(\"Connect to account\", \"connect-account\");\n}\n\n\n//# sourceURL=webpack://owner/./src/connectButton.js?");
-
-/***/ }),
-
-/***/ "./src/data.js":
-/*!*********************!*\
-  !*** ./src/data.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"data\": () => (/* binding */ data)\n/* harmony export */ });\nconst data = {\n  dataForDeploy: {\n    abi: [\n      {\n        inputs: [],\n        stateMutability: \"nonpayable\",\n        type: \"constructor\",\n      },\n      {\n        anonymous: false,\n        inputs: [\n          {\n            indexed: true,\n            internalType: \"address\",\n            name: \"oldOwner\",\n            type: \"address\",\n          },\n          {\n            indexed: true,\n            internalType: \"address\",\n            name: \"newOwner\",\n            type: \"address\",\n          },\n        ],\n        name: \"OwnerSet\",\n        type: \"event\",\n      },\n      {\n        inputs: [\n          {\n            internalType: \"address\",\n            name: \"newOwner\",\n            type: \"address\",\n          },\n        ],\n        name: \"changeOwner\",\n        outputs: [],\n        stateMutability: \"nonpayable\",\n        type: \"function\",\n      },\n      {\n        inputs: [],\n        name: \"getOwner\",\n        outputs: [\n          {\n            internalType: \"address\",\n            name: \"\",\n            type: \"address\",\n          },\n        ],\n        stateMutability: \"view\",\n        type: \"function\",\n      },\n    ],\n    bytecode:\n      \"608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16600073ffffffffffffffffffffffffffffffffffffffff167f342827c97908e5e2f71151c08502a66d44b6f758e3ac2f1de95f02eb95f0a73560405160405180910390a3610356806100db6000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063893d20e81461003b578063a6f9dae114610059575b600080fd5b610043610075565b604051610050919061025d565b60405180910390f35b610073600480360381019061006e91906101fe565b61009e565b005b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461012c576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161012390610278565b60405180910390fd5b8073ffffffffffffffffffffffffffffffffffffffff1660008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f342827c97908e5e2f71151c08502a66d44b6f758e3ac2f1de95f02eb95f0a73560405160405180910390a3806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000813590506101f881610309565b92915050565b600060208284031215610214576102136102db565b5b6000610222848285016101e9565b91505092915050565b610234816102a9565b82525050565b6000610247601383610298565b9150610252826102e0565b602082019050919050565b6000602082019050610272600083018461022b565b92915050565b600060208201905081810360008301526102918161023a565b9050919050565b600082825260208201905092915050565b60006102b4826102bb565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600080fd5b7f43616c6c6572206973206e6f74206f776e657200000000000000000000000000600082015250565b610312816102a9565b811461031d57600080fd5b5056fea26469706673582212208f65d9c920a5e7c951f66594688d8b1bb886420d647e05d3e5c9ec7eeab019cd64736f6c63430008070033\",\n  },\n  account: \"\",\n  contract: \"\",\n};\n\n\n//# sourceURL=webpack://owner/./src/data.js?");
-
-/***/ }),
-
-/***/ "./src/deployButton.js":
-/*!*****************************!*\
-  !*** ./src/deployButton.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addDeployButton\": () => (/* binding */ addDeployButton),\n/* harmony export */   \"removeDeployButton\": () => (/* binding */ removeDeployButton)\n/* harmony export */ });\n/* harmony import */ var _buttons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./buttons */ \"./src/buttons.js\");\n/* harmony import */ var _deployContract__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deployContract */ \"./src/deployContract.js\");\n\n\n\nconst addDeployButton = (data, html) => {\n  const button = createDeployButton();\n\n  button.onclick = async () => await (0,_deployContract__WEBPACK_IMPORTED_MODULE_1__.deploy)(data, html);\n\n  html.deployButton = button;\n\n  html.header.append(button);\n};\n\nconst removeDeployButton = (html) => {\n  (0,_buttons__WEBPACK_IMPORTED_MODULE_0__.removeButton)(html.deployButton);\n};\n\nfunction createDeployButton() {\n  return (0,_buttons__WEBPACK_IMPORTED_MODULE_0__.createButton)(\"Deploy contract\", \"deploy-contract\");\n}\n\n\n//# sourceURL=webpack://owner/./src/deployButton.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"connectAccount\": () => (/* binding */ connectAccount)\n/* harmony export */ });\n/* harmony import */ var _Buttons_connectButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Buttons/connectButton */ \"./src/Buttons/connectButton.js\");\n/* harmony import */ var _Buttons_deployButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Buttons/deployButton */ \"./src/Buttons/deployButton.js\");\n/* harmony import */ var _htmlSetters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./htmlSetters */ \"./src/htmlSetters.js\");\n\n\n\n\nasync function connect(state) {\n  state.contract = new state.web3.eth.Contract(state.deployData.abi);\n\n  state.currentAccount = (await state.web3.eth.getAccounts())[0];\n\n  if (state.currentAccount === undefined) {\n    throw new Error(\"Account not found\");\n  }\n\n  (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setAccountName)(state, state.currentAccount);\n}\n\nasync function refreshAccount(state) {\n  const newAddress = (await state.web3.eth.getAccounts())[0];\n\n  if (state.currentAccount === undefined) {\n    throw new Error(\"currentAccount not found\");\n  }\n\n  if (state.currentAccount !== newAddress) {\n    (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setAccountName)(state, newAddress);\n  }\n}\n\nasync function connectAccount(state) {\n  await connect(state);\n\n  const id = setInterval(() => refreshAccount(state), 500);\n\n  (0,_Buttons_connectButton__WEBPACK_IMPORTED_MODULE_0__.removeConnectButton)(state.html);\n\n  (0,_Buttons_deployButton__WEBPACK_IMPORTED_MODULE_1__.addDeployButton)(state);\n}\n\n\n//# sourceURL=webpack://owner/./src/connect.js?");
 
 /***/ }),
 
@@ -82,7 +159,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"deploy\": () => (/* binding */ deploy)\n/* harmony export */ });\n/* harmony import */ var _buttons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./buttons */ \"./src/buttons.js\");\n/* harmony import */ var _htmlSetters__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./htmlSetters */ \"./src/htmlSetters.js\");\n/*\nНужно разбить функцию на большее количество частей,\nПотому что так получается, что слишком много всего делает\n*/\n\n\n\n\nasync function deployContract(data) {\n  const deploy = data.contract.deploy({ data: data.dataForDeploy.bytecode });\n\n  const contract = await deploy\n    .send({ from: data.account })\n    .on(\"receipt\", (receipt) => (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_1__.setCurrentOwner)(data, receipt.from));\n\n  return contract;\n}\n\nasync function deploy(data, html) {\n  data.contract = await deployContract(data);\n\n  (0,_buttons__WEBPACK_IMPORTED_MODULE_0__.removeButton)(html.deployButton);\n\n  data.contract.events\n    .OwnerSet()\n    .on(\"data\", ({ returnValues }) =>\n      (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_1__.setCurrentOwner)(data, returnValues.newOwner)\n    )\n    .on(\"error\", console.log);\n}\n\n\n//# sourceURL=webpack://owner/./src/deployContract.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"deploy\": () => (/* binding */ deploy)\n/* harmony export */ });\n/* harmony import */ var _Buttons_deployButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Buttons/deployButton */ \"./src/Buttons/deployButton.js\");\n/* harmony import */ var _ChangheOwnerBlock_addCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChangheOwnerBlock/addCard */ \"./src/ChangheOwnerBlock/addCard.js\");\n/* harmony import */ var _htmlSetters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./htmlSetters */ \"./src/htmlSetters.js\");\n/*\nНужно разбить функцию на большее количество частей,\nПотому что так получается, что слишком много всего делает\n*/\n\n\n\n\n\nasync function deployContract(state) {\n  const deploy = state.contract.deploy({ data: state.deployData.bytecode });\n\n  const contract = await deploy\n    .send({ from: state.currentAccount })\n    .on(\"receipt\", (receipt) => {\n      (0,_ChangheOwnerBlock_addCard__WEBPACK_IMPORTED_MODULE_1__.addCard)(state);\n      (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setCurrentOwner)(state, receipt.from);\n    });\n\n  return contract;\n}\n\nfunction addListener(state) {\n  state.contract.events\n    .OwnerSet()\n    .on(\"data\", ({ returnValues }) =>\n      (0,_htmlSetters__WEBPACK_IMPORTED_MODULE_2__.setCurrentOwner)(state, returnValues.newOwner)\n    )\n    .on(\"error\", console.log);\n}\n\nasync function deploy(state) {\n  state.contract = await deployContract(state);\n\n  (0,_Buttons_deployButton__WEBPACK_IMPORTED_MODULE_0__.removeDeployButton)(state.html);\n\n  addListener(state);\n}\n\n\n//# sourceURL=webpack://owner/./src/deployContract.js?");
+
+/***/ }),
+
+/***/ "./src/htmlGetters.js":
+/*!****************************!*\
+  !*** ./src/htmlGetters.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"getNewAddress\": () => (/* binding */ getNewAddress)\n/* harmony export */ });\nconst getNewAddress = (html) => {\n  const newAddress = html.changeOwnerField.value;\n\n  html.changeOwnerField.value = \"\";\n\n  return newAddress;\n};\n\n\n//# sourceURL=webpack://owner/./src/htmlGetters.js?");
 
 /***/ }),
 
@@ -93,7 +181,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"setCurrentOwner\": () => (/* binding */ setCurrentOwner),\n/* harmony export */   \"setAccountName\": () => (/* binding */ setAccountName)\n/* harmony export */ });\n/* harmony import */ var _Elements__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Elements */ \"./src/Elements.js\");\n\n\nconst setCurrentOwner = (data, name) => {\n  _Elements__WEBPACK_IMPORTED_MODULE_0__.html.currentOwner.querySelector(\".card__owner-address\").innerHTML = name;\n\n  data.currentOwner = name;\n};\n\nconst setAccountName = (data, name) => {\n  _Elements__WEBPACK_IMPORTED_MODULE_0__.html.accountName.querySelector(\".connect-block__current-address\").innerHTML =\n    name;\n  data.account = name;\n};\n\n\n//# sourceURL=webpack://owner/./src/htmlSetters.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"setCurrentOwner\": () => (/* binding */ setCurrentOwner),\n/* harmony export */   \"setAccountName\": () => (/* binding */ setAccountName)\n/* harmony export */ });\nconst setCurrentOwner = (state, name) => {\n  state.html.currentOwner.querySelector(\".card__owner-address\").innerHTML =\n    name;\n\n  state.currentOwner = name;\n};\n\nconst setAccountName = (state, name) => {\n  state.html.accountName.querySelector(\n    \".connect-block__current-address\"\n  ).innerHTML = name;\n  state.currentAccount = name;\n};\n\n\n//# sourceURL=webpack://owner/./src/htmlSetters.js?");
 
 /***/ }),
 
@@ -104,7 +192,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _web3_min__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3.min */ \"./src/web3.min.js\");\n/* harmony import */ var _web3_min__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_web3_min__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ \"./src/data.js\");\n/* harmony import */ var _Elements__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Elements */ \"./src/Elements.js\");\n/* harmony import */ var _connectButton__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connectButton */ \"./src/connectButton.js\");\n\n\n\n\n\nwindow.addEventListener(\"load\", () => {\n  if (_data__WEBPACK_IMPORTED_MODULE_1__.data.web3 === undefined) {\n    _data__WEBPACK_IMPORTED_MODULE_1__.data.web3 = initialWeb3();\n  }\n\n  (0,_connectButton__WEBPACK_IMPORTED_MODULE_3__.addConnectButton)(_data__WEBPACK_IMPORTED_MODULE_1__.data, _Elements__WEBPACK_IMPORTED_MODULE_2__.html);\n});\n\nfunction initialWeb3() {\n  if (typeof window.web3 === \"undefined\") {\n    alert(\"Metamask not found\");\n\n    return new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default())(new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default().providers.HttpProvider)(\"localhost:8545\"));\n  }\n\n  return new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default())(window.web3.currentProvider);\n}\n\nasync function changeOwner(data) {\n  const newAddress = _Elements__WEBPACK_IMPORTED_MODULE_2__.html.changeOwnerField.value;\n  _Elements__WEBPACK_IMPORTED_MODULE_2__.html.changeOwnerField.value = \"\";\n\n  console.log(data.currentOwner, newAddress, data.currentOwner === newAddress);\n\n  if (newAddress === data.currentOwner) {\n    alert(\"Нельзя сменить адрес на свой\");\n    return;\n  }\n\n  if (data.web3.utils.isAddress(newAddress) === false) {\n    throw new TypeError(\"Введен некорректный адрес\");\n  }\n\n  await data.contract.methods\n    .changeOwner(newAddress)\n    .send({ from: data.account });\n}\n\n_Elements__WEBPACK_IMPORTED_MODULE_2__.html.changeOwnerButton.addEventListener(\n  \"click\",\n  async () => await changeOwner(_data__WEBPACK_IMPORTED_MODULE_1__.data)\n);\n\n\n//# sourceURL=webpack://owner/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _web3_min__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./web3.min */ \"./src/web3.min.js\");\n/* harmony import */ var _web3_min__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_web3_min__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./state */ \"./src/state.js\");\n/* harmony import */ var _Buttons_connectButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Buttons/connectButton */ \"./src/Buttons/connectButton.js\");\n\n\n\n\nwindow.addEventListener(\"load\", () => {\n  if (_state__WEBPACK_IMPORTED_MODULE_1__.state.web3 === undefined) {\n    _state__WEBPACK_IMPORTED_MODULE_1__.state.web3 = initialWeb3();\n  }\n\n  (0,_Buttons_connectButton__WEBPACK_IMPORTED_MODULE_2__.addConnectButton)(_state__WEBPACK_IMPORTED_MODULE_1__.state);\n});\n\nfunction initialWeb3() {\n  /* Лучше переписать, использую window.ethereum */\n\n  if (typeof window.web3 === \"undefined\") {\n    alert(\"Metamask not found\");\n\n    return new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default())(new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default().providers.HttpProvider)(\"localhost:8545\"));\n  }\n\n  return new (_web3_min__WEBPACK_IMPORTED_MODULE_0___default())(window.web3.currentProvider);\n}\n\n\n//# sourceURL=webpack://owner/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/state.js":
+/*!**********************!*\
+  !*** ./src/state.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"state\": () => (/* binding */ state)\n/* harmony export */ });\nconst state = {\n  html: {\n    header: document.querySelector(\".connect-block\"),\n    accountName: document.querySelector(\".connect-block__current-user\"),\n    main: document.querySelector(\".main\"),\n  },\n\n  deployData: {\n    abi: [\n      {\n        inputs: [],\n        stateMutability: \"nonpayable\",\n        type: \"constructor\",\n      },\n      {\n        anonymous: false,\n        inputs: [\n          {\n            indexed: true,\n            internalType: \"address\",\n            name: \"oldOwner\",\n            type: \"address\",\n          },\n          {\n            indexed: true,\n            internalType: \"address\",\n            name: \"newOwner\",\n            type: \"address\",\n          },\n        ],\n        name: \"OwnerSet\",\n        type: \"event\",\n      },\n      {\n        inputs: [\n          {\n            internalType: \"address\",\n            name: \"newOwner\",\n            type: \"address\",\n          },\n        ],\n        name: \"changeOwner\",\n        outputs: [],\n        stateMutability: \"nonpayable\",\n        type: \"function\",\n      },\n      {\n        inputs: [],\n        name: \"getOwner\",\n        outputs: [\n          {\n            internalType: \"address\",\n            name: \"\",\n            type: \"address\",\n          },\n        ],\n        stateMutability: \"view\",\n        type: \"function\",\n      },\n    ],\n    bytecode:\n      \"608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555060008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16600073ffffffffffffffffffffffffffffffffffffffff167f342827c97908e5e2f71151c08502a66d44b6f758e3ac2f1de95f02eb95f0a73560405160405180910390a3610356806100db6000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063893d20e81461003b578063a6f9dae114610059575b600080fd5b610043610075565b604051610050919061025d565b60405180910390f35b610073600480360381019061006e91906101fe565b61009e565b005b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461012c576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161012390610278565b60405180910390fd5b8073ffffffffffffffffffffffffffffffffffffffff1660008054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff167f342827c97908e5e2f71151c08502a66d44b6f758e3ac2f1de95f02eb95f0a73560405160405180910390a3806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050565b6000813590506101f881610309565b92915050565b600060208284031215610214576102136102db565b5b6000610222848285016101e9565b91505092915050565b610234816102a9565b82525050565b6000610247601383610298565b9150610252826102e0565b602082019050919050565b6000602082019050610272600083018461022b565b92915050565b600060208201905081810360008301526102918161023a565b9050919050565b600082825260208201905092915050565b60006102b4826102bb565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600080fd5b7f43616c6c6572206973206e6f74206f776e657200000000000000000000000000600082015250565b610312816102a9565b811461031d57600080fd5b5056fea26469706673582212208f65d9c920a5e7c951f66594688d8b1bb886420d647e05d3e5c9ec7eeab019cd64736f6c63430008070033\",\n  },\n};\n\nwindow.state = state;\n\n\n//# sourceURL=webpack://owner/./src/state.js?");
 
 /***/ }),
 

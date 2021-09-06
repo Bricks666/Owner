@@ -3,28 +3,36 @@
 Потому что так получается, что слишком много всего делает
 */
 
-import { removeButton } from "./buttons";
+import { removeDeployButton } from "./Buttons/deployButton";
+import { addCard } from "./ChangheOwnerBlock/addCard";
 import { setCurrentOwner } from "./htmlSetters";
 
-async function deployContract(data) {
-  const deploy = data.contract.deploy({ data: data.dataForDeploy.bytecode });
+async function deployContract(state) {
+  const deploy = state.contract.deploy({ data: state.deployData.bytecode });
 
   const contract = await deploy
-    .send({ from: data.account })
-    .on("receipt", (receipt) => setCurrentOwner(data, receipt.from));
+    .send({ from: state.currentAccount })
+    .on("receipt", (receipt) => {
+      addCard(state);
+      setCurrentOwner(state, receipt.from);
+    });
 
   return contract;
 }
 
-export async function deploy(data, html) {
-  data.contract = await deployContract(data);
-
-  removeButton(html.deployButton);
-
-  data.contract.events
+function addListener(state) {
+  state.contract.events
     .OwnerSet()
     .on("data", ({ returnValues }) =>
-      setCurrentOwner(data, returnValues.newOwner)
+      setCurrentOwner(state, returnValues.newOwner)
     )
     .on("error", console.log);
+}
+
+export async function deploy(state) {
+  state.contract = await deployContract(state);
+
+  removeDeployButton(state.html);
+
+  addListener(state);
 }
