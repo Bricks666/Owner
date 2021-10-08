@@ -14,6 +14,10 @@ async function deployContract(state) {
     .send({ from: state.currentAccount })
     .on("receipt", (receipt) => {
       addCard(state);
+      /*
+      Требуется выполнять здесь, потому что иначе событие пролетает мимо
+      Но такой способ выдает строку в неправильном регистре
+      */
       setCurrentOwner(state, receipt.from);
     });
 
